@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Лечение Кораном</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&family=Oswald:wght@600&display=swap" rel="stylesheet">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+:root{--bg:#F7F3EC;--card:#FFFDFA;--ink:#0B2D3D;--gold:#C39B52;--muted:#706B63;--line:#E5DDD1;--green:#42745B;--yellow:#A47B18;--orange:#B76B35}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.5 "Golos Text",Arial,sans-serif;min-height:var(--vh,100dvh);overflow-wrap:anywhere}
+.wrap{max-width:560px;margin:0 auto;padding:calc(16px + max(env(safe-area-inset-top,0px),var(--tg-content-safe-area-inset-top,0px))) 20px calc(32px + max(env(safe-area-inset-bottom,0px),var(--tg-content-safe-area-inset-bottom,0px)))}
+.orn{height:26px;margin:0 -20px 16px;opacity:.55}
+h1,h2{font-family:Oswald,Arial,sans-serif;font-weight:600;line-height:1.2;margin:0 0 14px;letter-spacing:.01em}
+h1{font-size:32px}h2{font-size:26px}
+h1:focus,h2:focus{outline:none}
+p{margin:0 0 14px}
+.muted{color:var(--muted)}
+.small{font-size:15px}
+.brand{font-family:Oswald,Arial,sans-serif;font-weight:600;font-size:22px;margin:0 0 4px}
+.kicker{font-size:14px;font-weight:600;color:var(--muted);letter-spacing:.06em;margin:0 0 18px;padding-bottom:10px;border-bottom:2px solid var(--gold);display:inline-block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:52px;padding:12px 18px;border-radius:12px;border:2px solid var(--ink);font:600 17px/1.3 "Golos Text",Arial,sans-serif;text-align:center;cursor:pointer;margin-top:12px;background:transparent;color:var(--ink)}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn.link{border-color:transparent;color:var(--muted);font-weight:500}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,input:focus-visible+.box{outline:3px solid var(--gold);outline-offset:2px}
+.prog{display:flex;gap:6px;margin:0 0 8px}
+.prog i{flex:1;height:6px;border-radius:3px;background:var(--line)}
+.prog i.f{background:var(--gold)}
+.list{display:flex;flex-direction:column;gap:8px;margin:14px 0 8px}
+label.q{display:flex;gap:14px;align-items:flex-start;padding:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;cursor:pointer;min-height:56px}
+label.q.on{background:#EFE6D3;border-color:var(--gold)}
+label.q input{position:absolute;opacity:0;width:1px;height:1px}
+.box{flex:none;width:26px;height:26px;border:2px solid var(--muted);border-radius:7px;background:var(--card);position:relative;margin-top:1px}
+.on .box{background:var(--ink);border-color:var(--ink)}
+.on .box::after{content:"";position:absolute;left:8px;top:3px;width:6px;height:12px;border:solid var(--bg);border-width:0 3px 3px 0;transform:rotate(45deg)}
+.rad .box{border-radius:50%}
+.rad.on .box::after{left:6px;top:6px;width:10px;height:10px;border:0;border-radius:50%;background:var(--bg);transform:none}
+.info{border-left:4px solid var(--gold);padding:4px 0 4px 14px;margin:0 0 20px;color:var(--muted);font-size:15px}
+.res{background:color-mix(in srgb,var(--c) 10%,#FFFDFA);border-color:color-mix(in srgb,var(--c) 40%,#E5DDD1)}
+.badge{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;margin-bottom:12px}
+.badge i{width:14px;height:14px;border-radius:50%;background:var(--c)}
+.count{font-weight:600;font-size:19px;margin-bottom:4px}
+.confirm{border:2px solid var(--gold);background:var(--card);border-radius:16px;padding:16px;margin-top:12px}
+.confirm:focus{outline:none}
+@media (max-width:360px){h1{font-size:28px}h2{font-size:23px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<svg class="orn" aria-hidden="true" focusable="false" width="100%" height="26"><defs><pattern id="p" width="26" height="26" patternUnits="userSpaceOnUse"><path d="M13 3 23 13 13 23 3 13Z" fill="none" stroke="#C39B52" stroke-width="1"/><path d="M13 9 17 13 13 17 9 13Z" fill="#C39B52" opacity=".5"/></pattern></defs><rect width="100%" height="26" fill="url(#p)"/></svg>
+<main id="app"></main>
+</div>
+<script>
+// Основные настройки и тексты меняются здесь
+window.APP_CONFIG = {
+  project: "Лечение Кораном",
+  channel: "Лечение Кораном | Рашит Юсупов",
+  enrollmentUrl: "", // ссылка на запись или оплату (https://... или https://t.me/...); пусто = кнопка неактивна
+  enrollText: "Записаться на двухнедельную работу",
+  enrollSoon: "Ссылка для записи скоро появится",
+  colors: {bg:"#F7F3EC",card:"#FFFDFA",ink:"#0B2D3D",gold:"#C39B52",muted:"#706B63",line:"#E5DDD1",green:"#42745B",yellow:"#A47B18",orange:"#B76B35"},
+  welcome: {
+    kicker: "ДИАГНОСТИКА ВАШЕГО СОСТОЯНИЯ",
+    title: "Что беспокоит вас в последнее время?",
+    text: "Отметьте то, что беспокоило вас в течение последних двух недель. Если вопрос касается снов, отмечайте повторяющиеся сны, которые тревожат вас или мешают спать. Можно пропустить блоки, если вам некомфортно.",
+    note: "Анкета собирает жалобы и не определяет их причину.",
+    button: "Начать диагностику"
+  },
+  blockHint: "Отметьте подходящие пункты",
+  next: "Далее", skip: "Пропустить блок", back: "Назад",
+  skipConfirm: "Пропустить блок и убрать выбранные в нём ответы?", skipYes: "Да, пропустить", skipNo: "Отмена",
+  skippedMark: "Блок отмечен как пропущенный.",
+  blocks: [
+    {title: "Самочувствие", questions: [
+      "У вас часто болит голова?",
+      "Вы чувствуете тяжесть или напряжение в плечах и затылке?",
+      "Вас беспокоит боль в пояснице?",
+      "У вас часто болят ноги или колени?",
+      "Вас беспокоят боли в животе или вздутие?",
+      "У вас заметно снизился аппетит?",
+      "Вы чувствуете слабость даже после отдыха?",
+      "У вас бывают онемение, покалывание или дрожь в руках и ногах?",
+      "На теле появляются синяки, происхождение которых вы не можете объяснить?",
+      "Вас беспокоит звон или гул в ушах?"]},
+    {title: "Сон и эмоциональное состояние", questions: [
+      "Вам трудно заснуть или вы часто просыпаетесь ночью?",
+      "Вы спите заметно больше обычного, но всё равно хотите спать?",
+      "Вам часто снятся пугающие сны — например, погоня, падение или нападение?",
+      "Вы просыпаетесь после кошмаров и боитесь снова уснуть?",
+      "Вам снятся неприятные сны сексуального характера, которые продолжают тревожить вас после пробуждения?",
+      "Вас беспокоят мысли, от которых трудно отвлечься?",
+      "Вы часто испытываете тревогу или страх, даже когда не понимаете причину?",
+      "Вы стали чаще раздражаться или резко злиться?",
+      "Вы часто чувствуете печаль или плачете, не понимая почему?",
+      "Вам хочется избегать людей и проводить больше времени в одиночестве?"]},
+    {title: "Отношения, повседневная жизнь и поклонение", questions: [
+      "Вас стало чаще раздражать общение с супругом или близкими?",
+      "Вы стали чаще ссориться с близкими?",
+      "Вам не хочется возвращаться домой, а вне дома становится легче?",
+      "Вас беспокоят снижение желания или неприятные ощущения при супружеской близости?",
+      "Вам стало трудно заниматься привычными делами из-за своего состояния?",
+      "Во время намаза или чтения Корана вы часто зеваете?",
+      "Во время намаза или чтения Корана вам трудно сосредоточиться из-за тревоги или неприятных ощущений?",
+      "Во время чтения или слушания Корана у вас появляется желание прервать его из-за дискомфорта?",
+      "Вас беспокоят нежелательные мысли о вере, которые вызывают страх или чувство вины?",
+      "К вечеру, в том числе после ‘Асра или Магриба, вы замечаете усиление тревоги или ухудшение самочувствия?"]}
+  ],
+  impact: {
+    info: "Эта анкета помогает собрать ваши жалобы. Она не устанавливает медицинский диагноз и не определяет наличие сглаза, колдовства или одержимости.",
+    question: "Насколько отмеченное мешает вашей жизни?",
+    button: "Посмотреть результат",
+    options: [
+      {label: "Почти не мешает", result: "green"},
+      {label: "Периодически мешает сну, делам или общению", result: "yellow"},
+      {label: "Сильно мешает повседневной жизни", result: "red"}
+    ]
+  },
+  result: {
+    title: "Ваш результат",
+    counter: "Вы отметили {N} из {T} пунктов",
+    skipped: "Пропущено блоков: {S} из 3. Пункты из них не учтены в числе отметок.",
+    disclaimer: "Тест не определяет наличие сглаза или колдовства. Шариатская рукъя не заменяет медицинскую помощь.",
+    change: "Изменить оценку", restart: "Пройти заново",
+    variants: {
+      green: {color: "green", badge: "Ваша оценка: почти не мешает",
+        text: "Вы указали, что отмеченное почти не мешает вашей повседневной жизни. Если отдельные жалобы сохраняются или беспокоят вас, не оставляйте их без внимания.",
+        invite: "Хотите уделить время духовной практике и пройти рукъю с сопровождением?",
+        program: "Приглашаем на двухнедельную работу с лекарем: 6 сеансов шариатской рукъи, полезные материалы и обратная связь."},
+      yellow: {color: "yellow", badge: "Ваша оценка: периодически мешает",
+        text: "По вашим ответам, состояние периодически мешает сну, привычным делам или общению. Повторяющиеся жалобы стоит обсудить с врачом.",
+        invite: "Если вы ищете духовную поддержку, можно пройти шариатскую рукъю с сопровождением лекаря.",
+        program: "В течение двух недель — 6 сеансов рукъи, полезные материалы и обратная связь, чтобы вы могли задавать свои вопросы."},
+      red: {color: "orange", badge: "Ваша оценка: сильно мешает",
+        text: "Вы указали, что состояние заметно мешает вашей повседневной жизни. Важно обратиться за медицинской помощью, чтобы разобраться в причинах жалоб.",
+        invite: "За духовной поддержкой вы также можете обратиться к лекарю.",
+        program: "Предлагаем двухнедельную работу: 6 сеансов шариатской рукъи, полезные материалы и обратная связь на протяжении программы."}
+    }
+  }
+};
+
+(function(){
+  const C = window.APP_CONFIG, root = document.documentElement;
+  const tg = window.Telegram && window.Telegram.WebApp;
+  for (const k in C.colors) root.style.setProperty("--" + k, C.colors[k]);
+
+  // Telegram SDK (необязателен)
+  if (tg) {
+    try { tg.ready(); tg.expand(); } catch (e) {}
+    try { tg.setHeaderColor(C.colors.bg); } catch (e) {}
+    try { tg.setBackgroundColor(C.colors.bg); } catch (e) {}
+    const vh = () => { try { root.style.setProperty("--vh", (tg.viewportStableHeight || innerHeight) + "px"); } catch (e) {} };
+    vh();
+    try { tg.onEvent("viewportChanged", vh); } catch (e) {}
+  }
+
+  // Состояние — только в памяти
+  let off = 0;
+  C.blocks.forEach(b => { b.offset = off; off += b.questions.length; });
+  const TOTAL = off;
+  const st = {screen: "welcome", sel: new Set(), skip: C.blocks.map(() => false), impact: null, confirm: false};
+
+  const $app = document.getElementById("app");
+  const h = (t, a = {}, ...k) => {
+    const e = document.createElement(t);
+    for (const [n, v] of Object.entries(a)) {
+      if (n === "class") e.className = v;
+      else if (n.startsWith("on")) e.addEventListener(n.slice(2), v);
+      else if (v === true) e.setAttribute(n, "");
+      else if (v !== false && v != null) e.setAttribute(n, v);
+    }
+    e.append(...k.flat().filter(x => x != null));
+    return e;
+  };
+  const btn = (text, cls, fn, extra = {}) => h("button", Object.assign({type: "button", class: "btn " + cls, onclick: fn}, extra), text);
+  const count = i => { const b = C.blocks[i]; let n = 0; for (let k = 0; k < b.questions.length; k++) if (st.sel.has(b.offset + k)) n++; return n; };
+
+  function render(focus = true) {
+    $app.innerHTML = "";
+    const s = st.screen;
+    const node = s === "welcome" ? welcome() : typeof s === "number" ? block(s) : s === "impact" ? impact() : result();
+    $app.append(node);
+    if (focus) {
+      window.scrollTo(0, 0);
+      const t = node.querySelector("[data-focus]");
+      if (t) t.focus({preventScroll: true});
+    }
+  }
+  const go = s => { st.screen = s; st.confirm = false; render(); };
+  const heading = (tag, text) => h(tag, {tabindex: "-1", "data-focus": ""}, text);
+
+  function welcome() {
+    const w = C.welcome;
+    return h("section", {},
+      h("p", {class: "brand"}, C.project),
+      h("p", {class: "kicker"}, w.kicker),
+      heading("h1", w.title),
+      h("p", {}, w.text),
+      h("p", {class: "info"}, w.note),
+      btn(w.button, "primary", () => go(0)));
+  }
+
+  function block(i) {
+    const b = C.blocks[i], n = C.blocks.length;
+    const nextScreen = i < n - 1 ? i + 1 : "impact";
+    const prog = h("div", {class: "prog", role: "progressbar", "aria-valuemin": "1", "aria-valuemax": n, "aria-valuenow": i + 1, "aria-label": "Блок " + (i + 1) + " из " + n},
+      C.blocks.map((_, k) => h("i", {class: k <= i ? "f" : ""})));
+    const list = h("div", {class: "list", role: "group", "aria-label": b.title},
+      b.questions.map((q, j) => {
+        const id = b.offset + j, on = st.sel.has(id);
+        return h("label", {class: "q" + (on ? " on" : "")},
+          h("input", {type: "checkbox", checked: on, onchange: e => {
+            if (e.target.checked) { st.sel.add(id); st.skip[i] = false; } else st.sel.delete(id);
+            e.target.closest("label").classList.toggle("on", e.target.checked);
+          }}),
+          h("span", {class: "box", "aria-hidden": "true"}),
+          h("span", {}, q));
+      }));
+    const doSkip = () => {
+      for (let k = 0; k < b.questions.length; k++) st.sel.delete(b.offset + k);
+      st.skip[i] = true; go(nextScreen);
+    };
+    const sec = h("section", {},
+      h("p", {class: "muted small", style: "margin-bottom:8px"}, "Блок " + (i + 1) + " из " + n),
+      prog,
+      heading("h2", b.title),
+      h("p", {class: "muted small"}, C.blockHint + (st.skip[i] ? ". " + C.skippedMark : "")),
+      list);
+    if (st.confirm) {
+      const box = h("div", {class: "confirm", role: "alertdialog", "aria-label": C.skipConfirm, tabindex: "-1"},
+        h("p", {}, C.skipConfirm),
+        btn(C.skipYes, "primary", doSkip),
+        btn(C.skipNo, "", () => { st.confirm = false; render(false); }));
+      sec.append(box);
+      setTimeout(() => { box.scrollIntoView({block: "center"}); box.focus({preventScroll: true}); }, 0);
+    } else {
+      sec.append(
+        btn(C.next, "primary", () => go(nextScreen)),
+        btn(C.skip, "", () => { if (count(i) > 0) { st.confirm = true; render(false); } else doSkip(); }),
+        btn(C.back, "link", () => go(i === 0 ? "welcome" : i - 1)));
+    }
+    return sec;
+  }
+
+  function impact() {
+    const m = C.impact;
+    const go2 = h("button", {type: "button", class: "btn primary", disabled: st.impact === null, onclick: () => go("result")}, m.button);
+    const opts = h("div", {class: "list", role: "radiogroup", "aria-labelledby": "iq"},
+      m.options.map((o, j) => h("label", {class: "q rad" + (st.impact === j ? " on" : "")},
+        h("input", {type: "radio", name: "impact", checked: st.impact === j, onchange: () => {
+          st.impact = j; go2.disabled = false;
+          opts.querySelectorAll("label").forEach((l, k) => l.classList.toggle("on", k === j));
+        }}),
+        h("span", {class: "box", "aria-hidden": "true"}),
+        h("span", {}, o.label))));
+    return h("section", {},
+      h("p", {class: "info"}, m.info),
+      h("h2", {id: "iq", tabindex: "-1", "data-focus": ""}, m.question),
+      opts, go2,
+      btn(C.back, "link", () => go(C.blocks.length - 1)));
+  }
+
+  function openUrl(url) {
+    if (!/^(https:\/\/|tg:\/\/)/.test(url)) return;
+    if (tg) {
+      try {
+        if (/^(https:\/\/(t|telegram)\.me\/|tg:\/\/)/.test(url) && tg.openTelegramLink) return tg.openTelegramLink(url);
+        if (tg.openLink) return tg.openLink(url);
+      } catch (e) {}
+    }
+    window.open(url, "_blank", "noopener");
+  }
+
+  function result() {
+    const R = C.result, v = R.variants[C.impact.options[st.impact].result];
+    const S = st.skip.filter(Boolean).length, url = (C.enrollmentUrl || "").trim();
+    const card = h("div", {class: "card res", style: "--c:var(--" + v.color + ")"},
+      h("div", {class: "badge"}, h("i", {"aria-hidden": "true"}), v.badge),
+      h("p", {class: "count"}, R.counter.replace("{N}", st.sel.size).replace("{T}", TOTAL)),
+      S > 0 ? h("p", {class: "muted small"}, R.skipped.replace("{S}", S)) : null,
+      h("p", {}, v.text));
+    return h("section", {},
+      heading("h2", R.title),
+      card,
+      h("div", {class: "card"},
+        h("p", {style: "font-weight:600"}, v.invite),
+        h("p", {}, v.program),
+        h("button", {type: "button", class: "btn primary", disabled: !url, onclick: () => openUrl(url)}, C.enrollText),
+        url ? null : h("p", {class: "muted small", style: "margin:10px 0 0;text-align:center"}, C.enrollSoon)),
+      h("p", {class: "muted small"}, R.disclaimer),
+      btn(R.change, "", () => go("impact")),
+      btn(R.restart, "link", () => {
+        st.sel = new Set(); st.skip = C.blocks.map(() => false); st.impact = null; go("welcome");
+      }));
+  }
+
+  render(false);
+})();
+</script>
+</body>
+</html>
